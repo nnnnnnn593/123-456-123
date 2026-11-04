@@ -1,10 +1,15 @@
 {
-  "name": "sam-opticals-bootstrap",
+  "name": "sam-opticals-storefront",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "postinstall": "node -e \"const fs=require('node:fs');const z=require('node:zlib');const cp=require('node:child_process');const compressed=Buffer.from(fs.readFileSync('.deploy-source.tar.br.b64','utf8').trim(),'base64');fs.writeFileSync('.deploy-source.tar',z.brotliDecompressSync(compressed));cp.execFileSync('tar',['-xf','.deploy-source.tar','-C','.'],{stdio:'inherit'});fs.unlinkSync('.deploy-source.tar');fs.unlinkSync('.deploy-source.tar.br.b64');\""
+    "prepare:vision": "node scripts/prepare-vision-assets.mjs",
+    "predev": "node scripts/prepare-vision-assets.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/prepare-vision-assets.mjs --required",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.22",
